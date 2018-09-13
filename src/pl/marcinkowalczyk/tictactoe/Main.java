@@ -12,15 +12,17 @@ public class Main {
 
     private static Game game;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws InterruptedException, IOException {
         Scanner scanner = new Scanner(System.in);
-        Util.print("Napisz: start, aby zaczac.");
-        String start = scanner.nextLine();
-        Util.print("Zaczynajmy!");
-        Game game = new Game(new Player("Gracz X"), new Player("Gracz O"));
+        String[] name = new String[2];
+        Util.print("Podaj nazwe 1 gracza.");
+        name[0] = scanner.nextLine();
+        Util.print("Podaj nazwe 2 gracza.");
+        name[1] = scanner.nextLine();
+        Game game = new Game(new Player(name[0]), new Player(name[1]));
         game.create();
             do {
-                System.out.flush();
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
                 game.screenRefresh();
                 game.changeTour();
                 Util.print("Obecna tura: " + game.getActualTour().getName());
@@ -45,6 +47,7 @@ public class Main {
                 }
                 if (game.checkFields(game.getActualTour())) {
                     game.setType(GameType.STOPING);
+                    new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
                     game.screenRefresh();
                     Util.print("Wygral: " + game.getActualTour().getName());
                     return;
